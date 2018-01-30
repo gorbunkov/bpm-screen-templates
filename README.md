@@ -6,6 +6,8 @@ The project contains BPM screen templates for CUBA.Studio.
 
 The **BPM entity editor** template is used for creation of entity editor that has a process actions frame related to specific business process. The process code should be specified in the **Process code** property value.
 
+![BPM entity editor template](https://github.com/gorbunkov/bpm-screen-templates/blob/master/screenshots/bpm-editor-studio-template.png)
+
 The **Display process attachments** checkbox tells whether a component for displaying a list process attachments should be added to the entity editor.
 
 ## BPM Process Form Template
