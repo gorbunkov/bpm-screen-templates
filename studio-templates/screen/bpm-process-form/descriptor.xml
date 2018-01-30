@@ -1,0 +1,11 @@
+<%controllerName = api.evaluateScript('screen/controllerNameByDescriptorName.groovy', ['descriptorName': frameDescriptorName])
+def platform_6_1_plus = api.compareWithCurrentPlatformVersion('6.0-SNAPSHOT') > 0
+%><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="${xmlNamespace_window}"
+        class="${packageName}.${controllerName}"
+        messagesPack="${packageName}">
+
+    <%if (platform_6_1_plus) {%><dialogMode height="600"
+                width="800"/><%}%>
+    <layout/>
+</window>

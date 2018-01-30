@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<template icon="resource://template/template_blank.svg"
+          name="BPM process form">
+    <description>
+        <![CDATA[BPM process form]]>
+    </description>
+    <property caption="Descriptor name"
+              code="frameDescriptorName"
+              defaultValue="frame"
+              propertyType="STRING"
+              required="true"/>
+    <source fileExt="xml"
+            name="descriptor"
+            templateFileName="${frameDescriptorName}"/>
+    <source fileExt="java"
+            name="controller"
+            templateFileName="${controllerName}"/>
+</template>

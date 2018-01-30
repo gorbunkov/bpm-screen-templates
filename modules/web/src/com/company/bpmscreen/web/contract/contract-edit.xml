@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editorCaption"
+        class="com.company.bpmscreen.web.contract.ContractEdit"
+        datasource="contractDs"
+        focusComponent="fieldGroup"
+        messagesPack="com.company.bpmscreen.web.contract">
+    <dsContext>
+        <datasource id="contractDs"
+                    class="com.company.bpmscreen.entity.Contract"
+                    view="_local"/>
+        <collectionDatasource id="procAttachmentsDs"
+                              class="com.haulmont.bpm.entity.ProcAttachment"
+                              view="procAttachment-browse">
+            <query>
+                <![CDATA[select a from bpm$ProcAttachment a
+                            where a.procInstance.entityId = :ds$contractDs
+                            order by a.createTs]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="contractDs">
+            <column width="250px">
+                <field property="number"/>
+            </column>
+        </fieldGroup>
+        <groupBox id="procActionsBox"
+                  caption="msg://process"
+                  orientation="vertical"
+                  spacing="true"
+                  width="AUTO">
+            <frame id="procActionsFrame"
+                   screen="procActionsFrame"/>
+        </groupBox>
+        <groupBox caption="msg://attachments"
+                  height="300px"
+                  width="700px">
+            <table id="attachmentsTable"
+                   height="100%"
+                   width="100%">
+                <columns>
+                    <column id="file.name"/>
+                    <column id="author"/>
+                    <column id="type"/>
+                    <column id="comment"
+                            maxTextLength="50"/>
+                </columns>
+                <rows datasource="procAttachmentsDs"/>
+            </table>
+        </groupBox>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>
