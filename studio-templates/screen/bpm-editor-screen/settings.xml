@@ -4,8 +4,7 @@
     <description>
         <![CDATA[Standard editor screen with BPM <i>procActionsFrame</i>.
 <br/>The <i>Process code</i> property specifies a BPM process code the procActionsFrame will be integrated with.
-<br/>The <i>Display process attachments</i> checkbox will enable a generation of the Table component with process attachments.
-]]>
+<br/>The <i>Display process attachments</i> checkbox will enable a generation of the Table component with process attachments.]]>
     </description>
     <locMessages key="editorCaption">
         <message lang="default">
@@ -44,7 +43,8 @@
     <property applyPreviousValue="false"
               caption="Process code"
               code="processCode"
-              propertyType="STRING"/>
+              propertyType="STRING"
+              required="true"/>
     <property applyPreviousValue="false"
               caption="Display process attachments"
               code="displayProcessAttachments"
