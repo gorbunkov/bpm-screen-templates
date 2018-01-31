@@ -2,27 +2,48 @@ package com.company.bpmscreen.web.contract;
 
 import com.haulmont.cuba.gui.components.AbstractEditor;
 import com.company.bpmscreen.entity.Contract;
+import com.haulmont.bpm.entity.ProcInstance;
+import com.haulmont.bpm.gui.procattachment.ProcAttachmentsFrame;
+import com.haulmont.bpm.gui.procactor.ProcActorsFrame;
+import com.haulmont.bpm.gui.proctask.ProcTasksFrame;
 
-import com.haulmont.bpm.entity.ProcAttachment;
-import com.haulmont.cuba.gui.app.core.file.FileDownloadHelper;
-import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.bpm.gui.procactions.ProcActionsFrame;
 import javax.inject.Inject;
 
 public class ContractEdit extends AbstractEditor<Contract> {
 
-    private static final String PROCESS_CODE = "aaa";
+    private static final String PROCESS_CODE = "contractApproval";
 
     @Inject
     private ProcActionsFrame procActionsFrame;
 
     @Inject
-    private Table<ProcAttachment> attachmentsTable;
+    protected ProcTasksFrame procTasksFrame;
+    
+
+    @Inject
+    protected ProcActorsFrame procActorsFrame;
+    
+
+    @Inject
+    protected ProcAttachmentsFrame procAttachmentsFrame;
+    
 
     @Override
     protected void postInit() {
-        FileDownloadHelper.initGeneratedColumn(attachmentsTable, "file");
         initProcActionsFrame();
+
+        ProcInstance procInstance = procActionsFrame.getProcInstance();
+        if (procInstance != null) {
+            procTasksFrame.setProcInstance(procInstance);
+            procTasksFrame.refresh();
+
+            procActorsFrame.setProcInstance(procInstance);
+            procActorsFrame.refresh();
+
+            procAttachmentsFrame.setProcInstance(procInstance);
+            procAttachmentsFrame.refresh();
+        }
     }
 
     private void initProcActionsFrame() {

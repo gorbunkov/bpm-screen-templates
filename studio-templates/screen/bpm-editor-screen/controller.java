@@ -10,10 +10,11 @@ if (copyright) {
 
 import com.haulmont.cuba.gui.components.AbstractEditor;
 import ${entity.fqn};
-<%if (displayProcessAttachments) {%>
-import com.haulmont.bpm.entity.ProcAttachment;
-import com.haulmont.cuba.gui.app.core.file.FileDownloadHelper;
-import com.haulmont.cuba.gui.components.Table;<%}%>
+import com.haulmont.bpm.entity.ProcInstance;
+<%if (displayProcessAttachments) {%>import com.haulmont.bpm.gui.procattachment.ProcAttachmentsFrame;<%}%>
+<%if (displayProcessActors) {%>import com.haulmont.bpm.gui.procactor.ProcActorsFrame;<%}%>
+<%if (displayProcessTasks) {%>import com.haulmont.bpm.gui.proctask.ProcTasksFrame;<%}%>
+
 import com.haulmont.bpm.gui.procactions.ProcActionsFrame;
 import javax.inject.Inject;
 <%if (classComment) {%>
@@ -24,14 +25,34 @@ public class ${controllerName} extends AbstractEditor<${entity.className}> {
 
     @Inject
     private ProcActionsFrame procActionsFrame;
-<%if (displayProcessAttachments) {%>
-    @Inject
-    private Table<ProcAttachment> attachmentsTable;<%}%>
+
+    <%if (displayProcessTasks) {%>@Inject
+    protected ProcTasksFrame procTasksFrame;
+    <%}%>
+
+    <%if (displayProcessActors) {%>@Inject
+    protected ProcActorsFrame procActorsFrame;
+    <%}%>
+
+    <%if (displayProcessAttachments) {%>@Inject
+    protected ProcAttachmentsFrame procAttachmentsFrame;
+    <%}%>
 
     @Override
     protected void postInit() {
-        <%if (displayProcessAttachments) {%>FileDownloadHelper.initGeneratedColumn(attachmentsTable, "file");<%}%>
         initProcActionsFrame();
+
+        ProcInstance procInstance = procActionsFrame.getProcInstance();
+        if (procInstance != null) {<%if (displayProcessTasks) {%>
+            procTasksFrame.setProcInstance(procInstance);
+            procTasksFrame.refresh();<%}%>
+<%if (displayProcessActors) {%>
+            procActorsFrame.setProcInstance(procInstance);
+            procActorsFrame.refresh();<%}%>
+<%if (displayProcessAttachments) {%>
+            procAttachmentsFrame.setProcInstance(procInstance);
+            procAttachmentsFrame.refresh();<%}%>
+        }
     }
 
     private void initProcActionsFrame() {

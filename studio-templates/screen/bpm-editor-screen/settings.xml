@@ -21,6 +21,22 @@
             <![CDATA[Attachments]]>
         </message>
     </locMessages>
+    <locMessages key=""/>
+    <locMessages key="processActors">
+        <message lang="default">
+            <![CDATA[Process actors]]>
+        </message>
+    </locMessages>
+    <locMessages key="processTasks">
+        <message lang="default">
+            <![CDATA[Process tasks]]>
+        </message>
+    </locMessages>
+    <locMessages key="processAttachments">
+        <message lang="default">
+            <![CDATA[Process attachments]]>
+        </message>
+    </locMessages>
     <property caption="Entity"
               code="entity"
               propertyType="ENTITY"
@@ -45,10 +61,17 @@
               code="processCode"
               propertyType="STRING"
               required="true"/>
-    <property applyPreviousValue="false"
-              caption="Display process attachments"
+    <property caption="Display process tasks"
+              code="displayProcessTasks"
+              defaultValue="true"
+              propertyType="BOOLEAN"/>
+    <property caption="Display process actors"
+              code="displayProcessActors"
+              defaultValue="true"
+              propertyType="BOOLEAN"/>
+    <property caption="Display process attachments"
               code="displayProcessAttachments"
-              defaultValue="false"
+              defaultValue="true"
               propertyType="BOOLEAN"/>
     <source fileExt="xml"
             name="descriptor"

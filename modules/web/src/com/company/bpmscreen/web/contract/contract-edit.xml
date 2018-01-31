@@ -9,50 +9,62 @@
         <datasource id="contractDs"
                     class="com.company.bpmscreen.entity.Contract"
                     view="_local"/>
-        <collectionDatasource id="procAttachmentsDs"
-                              class="com.haulmont.bpm.entity.ProcAttachment"
-                              view="procAttachment-browse">
-            <query>
-                <![CDATA[select a from bpm$ProcAttachment a
-                            where a.procInstance.entityId = :ds$contractDs
-                            order by a.createTs]]>
-            </query>
-        </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="windowActions"
+    <layout expand="scrollBox"
             spacing="true">
-        <fieldGroup id="fieldGroup"
-                    datasource="contractDs">
-            <column width="250px">
-                <field property="number"/>
-            </column>
-        </fieldGroup>
-        <groupBox id="procActionsBox"
-                  caption="msg://process"
-                  orientation="vertical"
-                  spacing="true"
-                  width="AUTO">
-            <frame id="procActionsFrame"
-                   screen="procActionsFrame"/>
-        </groupBox>
-        <groupBox caption="msg://attachments"
-                  height="300px"
-                  width="700px">
-            <table id="attachmentsTable"
-                   height="100%"
-                   width="100%">
-                <columns>
-                    <column id="file.name"/>
-                    <column id="author"/>
-                    <column id="type"/>
-                    <column id="comment"
-                            maxTextLength="50"/>
-                </columns>
-                <rows datasource="procAttachmentsDs"/>
-            </table>
-        </groupBox>
+        <scrollBox id="scrollBox"
+                   spacing="true">
+            <hbox spacing="true">
+                <fieldGroup id="fieldGroup"
+                            datasource="contractDs">
+                    <column width="250px">
+                        <field property="number"/>
+                    </column>
+                </fieldGroup>
+                <groupBox id="procActionsBox"
+                          caption="msg://process"
+                          orientation="vertical"
+                          spacing="true"
+                          width="AUTO">
+                    <frame id="procActionsFrame"
+                           screen="procActionsFrame"/>
+                </groupBox>
+            </hbox>
+            <groupBox id="processInformationBox"
+                      caption="msg://processInfo"
+                      height="300px"
+                      spacing="true">
+                <tabSheet id="tabsheet"
+                          height="100%">
+                    <tab id="processTasksTab"
+                         caption="msg://processTasks"
+                         margin="true,false,false,false"
+                         spacing="true">
+                        <frame id="procTasksFrame"
+                               height="100%"
+                               screen="procTasksFrame"/>
+                    </tab>
+                    <tab id="processActorsTab"
+                         caption="msg://processActors"
+                         margin="true,false,false,false"
+                         spacing="true">
+                        <frame id="procActorsFrame"
+                               height="100%"
+                               screen="procActorsFrame"/>
+                    </tab>
+                    <tab id="processAttachmentsTab"
+                         caption="msg://processAttachments"
+                         margin="true,false,false,false"
+                         spacing="true">
+                        <frame id="procAttachmentsFrame"
+                               height="100%"
+                               screen="procAttachmentsFrame"/>
+                    </tab>
+                </tabSheet>
+            </groupBox>
+        </scrollBox>
         <frame id="windowActions"
                screen="editWindowActions"/>
     </layout>

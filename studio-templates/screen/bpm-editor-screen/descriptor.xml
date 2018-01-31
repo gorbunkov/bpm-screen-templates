@@ -5,7 +5,7 @@ def datasourceId = "${entity.uncapitalizedClassName}Ds"
 def nestedDatasourceProperties = api.evaluateScript('screen/nestedDatasourceProperties.groovy', ['view': editView])
 def nestedCollectionDatasourceProperties = api.evaluateScript('screen/nestedCollectionDatasourceProperties.groovy', ['view': editView])
 def optionsDatasourceAttrs = api.evaluateScript('screen/optionsDatasources.groovy', ['view': editView])
-def createScrollBox = editView.allProperties.size() > 10
+def createScrollBox = true
 def collectionAttributesTable = []
 def platform_6_1_plus = api.compareWithCurrentPlatformVersion('6.0-SNAPSHOT') > 0
 def frameName = api.compareWithCurrentPlatformVersion('5.999-SNAPSHOT') > 0 ? 'frame' : 'iframe'
@@ -53,17 +53,6 @@ def fieldGroupXml = api.processSnippet('screen/fieldGroup.xml',
                     </query>
                 </collectionDatasource>
         <%}}%>
-        <%if (displayProcessAttachments) {%>
-                <collectionDatasource id="procAttachmentsDs"
-                          class="com.haulmont.bpm.entity.ProcAttachment"
-                          view="procAttachment-browse">
-                    <query>
-                        <![CDATA[select a from bpm\$ProcAttachment a
-                            where a.procInstance.entityId = :ds\$${datasourceId}
-                            order by a.createTs]]>
-                    </query>
-                </collectionDatasource>
-        <%}%>
     </dsContext>
     <%if (modalDialog && platform_6_1_plus) {%>
     <dialogMode height="AUTO"
@@ -76,6 +65,7 @@ def fieldGroupXml = api.processSnippet('screen/fieldGroup.xml',
     <layout expand=<%(createScrollBox ? print("'scrollBox'") : print("'windowActions'"))%> spacing="true">
     <%if (createScrollBox) {
         print('<scrollBox id="scrollBox" spacing="true">')}%>
+<hbox spacing="true">
         ${fieldGroupXml}
         <%collectionAttributesTable.each{table ->%>
             ${table}
@@ -88,24 +78,43 @@ def fieldGroupXml = api.processSnippet('screen/fieldGroup.xml',
     <frame id="procActionsFrame"
            screen="procActionsFrame"/>
 </groupBox>
-        <%if (displayProcessAttachments) {%>
-<groupBox caption="msg://attachments"
-          height="300px"
-          width="700px">
-    <table id="attachmentsTable"
-           height="100%"
-           width="100%">
-        <columns>
-            <column id="file.name"/>
-            <column id="author"/>
-            <column id="type"/>
-            <column id="comment"
-                    maxTextLength="50"/>
-        </columns>
-        <rows datasource="procAttachmentsDs"/>
-    </table>
-</groupBox>
+</hbox>
+<%if (displayProcessTasks || displayProcessAttachments || displayProcessActors) {%>
+<groupBox id="processInformationBox" caption="msg://processInfo" spacing="true" height="300px">
+    <tabSheet id="tabsheet" height="100%">
+        <%if (displayProcessTasks) {%>
+        <tab id="processTasksTab"
+             caption="msg://processTasks"
+             margin="true,false,false,false"
+             spacing="true">
+            <frame id="procTasksFrame"
+                   height="100%"
+                   screen="procTasksFrame"/>
+        </tab>
         <%}%>
+        <%if (displayProcessActors) {%>
+        <tab id="processActorsTab"
+             caption="msg://processActors"
+             margin="true,false,false,false"
+             spacing="true">
+            <frame id="procActorsFrame"
+                   height="100%"
+                   screen="procActorsFrame"/>
+        </tab>
+        <%}%>
+        <%if (displayProcessAttachments) {%>
+        <tab id="processAttachmentsTab"
+             caption="msg://processAttachments"
+             margin="true,false,false,false"
+             spacing="true">
+            <frame id="procAttachmentsFrame"
+                   height="100%"
+                   screen="procAttachmentsFrame"/>
+        </tab>
+        <%}%>
+    </tabSheet>
+</groupBox>
+<%}%>
         <%if (createScrollBox) {
         print('</scrollBox>')
         }%>
