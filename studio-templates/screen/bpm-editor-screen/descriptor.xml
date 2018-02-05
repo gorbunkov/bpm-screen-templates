@@ -80,7 +80,12 @@ def fieldGroupXml = api.processSnippet('screen/fieldGroup.xml',
 </groupBox>
 </hbox>
 <%if (displayProcessTasks || displayProcessAttachments || displayProcessActors) {%>
-<groupBox id="processInformationBox" caption="msg://processInfo" spacing="true" height="300px">
+<groupBox id="processInformationBox" caption="msg://processInfo" spacing="true" height="300px" expand="tabsheet">
+    <hbox spacing="true">
+        <label value="msg://currentState"/>
+        <label id="processStateLabel" stylename="bold"/>
+    </hbox>
+
     <tabSheet id="tabsheet" height="100%">
         <%if (displayProcessTasks) {%>
         <tab id="processTasksTab"

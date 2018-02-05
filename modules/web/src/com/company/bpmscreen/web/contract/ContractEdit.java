@@ -3,6 +3,12 @@ package com.company.bpmscreen.web.contract;
 import com.haulmont.cuba.gui.components.AbstractEditor;
 import com.company.bpmscreen.entity.Contract;
 import com.haulmont.bpm.entity.ProcInstance;
+import com.haulmont.bpm.entity.ProcTask;
+import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.LoadContext;
+import com.haulmont.cuba.gui.components.Label;
+import javax.annotation.Nullable;
+import java.util.List;
 import com.haulmont.bpm.gui.procattachment.ProcAttachmentsFrame;
 import com.haulmont.bpm.gui.procactor.ProcActorsFrame;
 import com.haulmont.bpm.gui.proctask.ProcTasksFrame;
@@ -15,7 +21,13 @@ public class ContractEdit extends AbstractEditor<Contract> {
     private static final String PROCESS_CODE = "contractApproval";
 
     @Inject
-    private ProcActionsFrame procActionsFrame;
+    protected DataManager dataManager;
+
+    @Inject
+    protected Label processStateLabel;
+
+    @Inject
+    protected ProcActionsFrame procActionsFrame;
 
     @Inject
     protected ProcTasksFrame procTasksFrame;
@@ -44,6 +56,8 @@ public class ContractEdit extends AbstractEditor<Contract> {
             procAttachmentsFrame.setProcInstance(procInstance);
             procAttachmentsFrame.refresh();
         }
+
+        processStateLabel.setValue(getProcessState());
     }
 
     private void initProcActionsFrame() {
@@ -59,5 +73,17 @@ public class ContractEdit extends AbstractEditor<Contract> {
                 close(COMMIT_ACTION_ID);
             })
             .init(PROCESS_CODE, getItem());
+    }
+
+    @Nullable
+    protected String getProcessState() {
+        ProcInstance procInstance = procActionsFrame.getProcInstance();
+        if (procInstance != null) {
+            List<ProcTask> tasks = dataManager.loadList(LoadContext.create(ProcTask.class)
+                .setQuery(LoadContext.createQuery("select t from bpm$ProcTask t where t.procInstance.id = :procInstance and t.endDate is null")
+                    .setParameter("procInstance", procInstance)));
+            if (!tasks.isEmpty()) return tasks.get(0).getName();
+        }
+        return null;
     }
 }

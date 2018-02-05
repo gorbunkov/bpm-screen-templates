@@ -34,8 +34,14 @@
             </hbox>
             <groupBox id="processInformationBox"
                       caption="msg://processInfo"
+                      expand="tabsheet"
                       height="300px"
                       spacing="true">
+                <hbox spacing="true">
+                    <label value="msg://currentState"/>
+                    <label id="processStateLabel"
+                           stylename="bold"/>
+                </hbox>
                 <tabSheet id="tabsheet"
                           height="100%">
                     <tab id="processTasksTab"

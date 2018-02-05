@@ -37,6 +37,16 @@
             <![CDATA[Process attachments]]>
         </message>
     </locMessages>
+    <locMessages key="processStarted">
+        <message lang="default">
+            <![CDATA[Process started]]>
+        </message>
+    </locMessages>
+    <locMessages key="currentState">
+        <message lang="default">
+            <![CDATA[Current state:]]>
+        </message>
+    </locMessages>
     <property caption="Entity"
               code="entity"
               propertyType="ENTITY"
